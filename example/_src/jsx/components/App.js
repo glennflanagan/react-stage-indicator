@@ -52,7 +52,6 @@ var App = React.createClass({
         <StageIndicator
           currentStage={this.state.currentStage}
           baseCSSClass="StageIndicator"
-          handleClick={this.handleClick}
           stages={this.state.stages} />
 
       </div>

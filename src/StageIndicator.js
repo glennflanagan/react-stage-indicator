@@ -6,11 +6,6 @@ class StageIndicator extends React.Component {
     super(props);
   }
 
-  handleClick(index) {
-    event.preventDefault();
-    this.props.handleClick(index);
-  }
-
   render() {
 
     const barStyle = {
@@ -68,8 +63,7 @@ StageIndicator.propTypes = {
     clickHandler: React.PropTypes.func.isRequired
   })).isRequired,
   currentStage: React.PropTypes.number.isRequired,
-  baseCSSClass: React.PropTypes.string.isRequired,
-  handleClick: React.PropTypes.func.isRequired
+  baseCSSClass: React.PropTypes.string.isRequired
 }
 
 

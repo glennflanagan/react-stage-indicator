@@ -80,7 +80,6 @@ var App = _react2.default.createClass({
       _react2.default.createElement(_StageIndicator2.default, {
         currentStage: this.state.currentStage,
         baseCSSClass: 'StageIndicator',
-        handleClick: this.handleClick,
         stages: this.state.stages })
     );
   }
@@ -19159,12 +19158,6 @@ var StageIndicator = function (_React$Component) {
   }
 
   _createClass(StageIndicator, [{
-    key: 'handleClick',
-    value: function handleClick(index) {
-      event.preventDefault();
-      this.props.handleClick(index);
-    }
-  }, {
     key: 'render',
     value: function render() {
       var _this2 = this;
@@ -19236,8 +19229,7 @@ StageIndicator.propTypes = {
     clickHandler: _react2.default.PropTypes.func.isRequired
   })).isRequired,
   currentStage: _react2.default.PropTypes.number.isRequired,
-  baseCSSClass: _react2.default.PropTypes.string.isRequired,
-  handleClick: _react2.default.PropTypes.func.isRequired
+  baseCSSClass: _react2.default.PropTypes.string.isRequired
 };
 
 exports.default = StageIndicator;
