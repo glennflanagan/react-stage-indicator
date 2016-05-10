@@ -107,13 +107,13 @@ h2 {
   width: 100%; }
 
 .StageIndicator__bar {
-  height: 10px;
-  background-color: grey; }
+  height: 5px;
+  background-color: transparent; }
 
 .StageIndicator__pip {
-  height: 10px;
-  background-color: red;
-  transition: left 200ms ease-out; }
+  height: 5px;
+  background-color: #cc2036;
+  transition: left 150ms ease-out; }
 
 .StageIndicator__labels {
   display: flex; }
@@ -133,11 +133,11 @@ h2 {
   .StageIndicator__label:last-child:after {
     content: none; }
   .StageIndicator__label.StageIndicator__label--active {
-    color: red; }
+    color: #cc2036; }
 
 .StageIndicator__link {
   text-decoration: none; }
   .StageIndicator__link:link, .StageIndicator__link:visited {
-    color: red; }
+    color: #cc2036; }
   .StageIndicator__link:hover, .StageIndicator__link:active {
     text-decoration: underline; }

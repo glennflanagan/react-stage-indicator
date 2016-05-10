@@ -6,38 +6,30 @@ var App = React.createClass({
 
   getInitialState: function() {
     return {
-      numberOfStages: 5,
       currentStage: 3,
-      labels: [
-        'Stage One',
-        'Stage Two',
-        'Stage Three',
-        'Stage Four',
-        'Stage Five',
-      ],
       stages: [
         {
-          label: 'Stage One',
+          label: 'Stage one',
           canSkipToThisStage: true,
           clickHandler: this.handleClick
         },
         {
-          label: 'Stage Two',
+          label: 'Stage two',
           canSkipToThisStage: true,
           clickHandler: this.handleClick
         },
         {
-          label: 'Stage Three',
+          label: 'Stage three',
           canSkipToThisStage: true,
           clickHandler: this.handleClick
         },
         {
-          label: 'Stage Four',
+          label: 'Stage four',
           canSkipToThisStage: true,
           clickHandler: this.handleClick
         },
         {
-          label: 'Stage Five',
+          label: 'Stage five',
           canSkipToThisStage: false,
           clickHandler: this.handleClick
         }

@@ -1,4 +1,7 @@
-$barHeight : 10px;
+$barHeight : 5px;
+$barBackgroundColor: transparent;
+$pipColour: #cc2036;
+$activeLinkColour : $pipColour;
 
 .StageIndicator {
   width: 100%;
@@ -7,14 +10,14 @@ $barHeight : 10px;
 
 .StageIndicator__bar {
   height: $barHeight;
-  background-color: grey;
+  background-color: $barBackgroundColor;
 }
 
 .StageIndicator__pip {
   height: $barHeight;
-  background-color: red;
+  background-color: $pipColour;
 
-  transition: left 200ms ease-out;
+  transition: left 150ms ease-out;
 }
 
 .StageIndicator__labels {
@@ -41,7 +44,7 @@ $barHeight : 10px;
 
   //Modifiers
   &.StageIndicator__label--active {
-    color: red;
+    color: $activeLinkColour;
   }
 }
 
@@ -49,7 +52,7 @@ $barHeight : 10px;
   text-decoration: none;
 
   &:link, &:visited {
-    color: red;
+    color: $activeLinkColour;
   }
 
   &:hover, &:active {
