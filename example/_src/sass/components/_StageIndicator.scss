@@ -1,0 +1,44 @@
+$barHeight : 10px;
+
+.StageIndicator {
+  width: 100%;
+}
+
+
+.StageIndicator__bar {
+  height: $barHeight;
+  background-color: grey;
+}
+
+.StageIndicator__pip {
+  height: $barHeight;
+  background-color: red;
+
+  transition: left 200ms ease-out;
+}
+
+.StageIndicator__labels {
+  display: flex;
+}
+
+.StageIndicator__label {
+  width: 100%;
+  text-align: center;
+  padding: 10px;
+  position: relative;
+
+  &:after {
+    content: '\f054';
+    font-family: 'FontAwesome';
+    position: absolute;
+    right: -5px;
+  }
+  &:last-child:after {
+    content: none;
+  }
+
+  //Modifiers
+  &.StageIndicator__label--active {
+    color: red;
+  }
+}

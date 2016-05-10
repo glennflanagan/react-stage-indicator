@@ -28,9 +28,9 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
-var _Collapsible = require('../../../../src/Collapsible');
+var _StageIndicator = require('../../../../src/StageIndicator');
 
-var _Collapsible2 = _interopRequireDefault(_Collapsible);
+var _StageIndicator2 = _interopRequireDefault(_StageIndicator);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -38,137 +38,23 @@ var App = _react2.default.createClass({
   displayName: 'App',
 
 
+  getInitialState: function getInitialState() {
+    return {
+      numberOfStages: 5,
+      currentStage: 2,
+      labels: ['Stage One', 'Stage Two', 'Stage Three', 'Stage Four', 'Stage Five']
+    };
+  },
+
   render: function render() {
     return _react2.default.createElement(
       'div',
       null,
-      _react2.default.createElement(
-        _Collapsible2.default,
-        { triggerText: 'Start here' },
-        _react2.default.createElement(
-          'p',
-          null,
-          'This is the collapsible content. It can be any element or React component you like.'
-        ),
-        _react2.default.createElement(
-          'p',
-          null,
-          'It can even be another Collapsible component. Check out the next section!'
-        )
-      ),
-      _react2.default.createElement(
-        _Collapsible2.default,
-        { transitionTime: 400, triggerText: 'Then try this one' },
-        _react2.default.createElement(
-          'p',
-          null,
-          'Would you look at that!'
-        ),
-        _react2.default.createElement(
-          'p',
-          null,
-          'See; you can nest as many Collapsible components as you like.'
-        ),
-        _react2.default.createElement(
-          _Collapsible2.default,
-          { triggerText: 'Mmmmm, it\'s all cosy nested here' },
-          _react2.default.createElement(
-            'p',
-            null,
-            'And there\'s no limit to how many levels deep you go. Or how many you have on the same level.'
-          ),
-          _react2.default.createElement(
-            _Collapsible2.default,
-            { triggerText: 'This is just another Collapsible' },
-            _react2.default.createElement(
-              'p',
-              null,
-              'It just keeps going and going! Well, actually we\'ve stopped here. But that\'s only because I\'m running out of things to type.'
-            )
-          ),
-          _react2.default.createElement(
-            _Collapsible2.default,
-            { triggerText: 'But this one is open by default!', open: true },
-            _react2.default.createElement(
-              'p',
-              null,
-              'And would you look at that! This one is open by default. Sexy huh!?'
-            ),
-            _react2.default.createElement(
-              'p',
-              null,
-              'You can pass the prop of open={true} which will make the Collapsible open by default.'
-            )
-          ),
-          _react2.default.createElement(
-            _Collapsible2.default,
-            { triggerText: 'That\'s not all. Check out the speed of this one', transitionTime: 100 },
-            _react2.default.createElement(
-              'p',
-              null,
-              'Whoosh! That was fast right?'
-            ),
-            _react2.default.createElement(
-              'p',
-              null,
-              'You can control the time it takes to animate (transition) by passing the prop transitionTime a value in milliseconds. This one was set to transitionTime={100}'
-            )
-          )
-        )
-      ),
-      _react2.default.createElement(
-        _Collapsible2.default,
-        { transitionTime: 400, triggerText: 'This one will blow your mind.', easing: 'cubic-bezier(0.175, 0.885, 0.32, 2.275)' },
-        _react2.default.createElement(
-          'p',
-          null,
-          'Well maybe not. But did you see that little wiggle at the end. That is using a CSS cubic-beizer for the easing!'
-        ),
-        _react2.default.createElement(
-          'p',
-          null,
-          'You can pass any string into the prop easing that you would declare in a CSS transition-timing-function. This means you have complete control over how that Collapsible appears.'
-        )
-      ),
-      _react2.default.createElement(
-        _Collapsible2.default,
-        { transitionTime: 400, triggerText: 'Oh and did I mention that I\'m responsive?', triggerTextWhenOpen: 'Plus you can change the trigger text when I\'m open too' },
-        _react2.default.createElement(
-          'p',
-          null,
-          'That\'s correct. This collapsible section will animate to the height it needs to and then set it\'s height back to auto.'
-        ),
-        _react2.default.createElement(
-          'p',
-          null,
-          'This means that no matter what width you stretch that viewport to, the Collapsible it will respond to it.'
-        ),
-        _react2.default.createElement(
-          'p',
-          null,
-          'And no matter what height the content within it is, it will change height too.'
-        ),
-        _react2.default.createElement(
-          'h2',
-          null,
-          'CSS Styles'
-        ),
-        _react2.default.createElement(
-          'p',
-          null,
-          'All of the style of the Collapsible (apart from the overflow and transition) are controlled by your own CSS too.'
-        ),
-        _react2.default.createElement(
-          'p',
-          null,
-          'By default the top-level CSS class is Collapsible, but you have control over this too so you can easily add it into your own project. Neato!'
-        ),
-        _react2.default.createElement(
-          'p',
-          null,
-          'So by setting the prop of classParentString={"MyNamespacedClass"} then the top-level class will become MyNamespacedClass.'
-        )
-      )
+      _react2.default.createElement(_StageIndicator2.default, {
+        numberOfStages: this.state.numberOfStages,
+        currentStage: this.state.currentStage,
+        baseCSSClass: 'StageIndicator',
+        labels: this.state.labels })
     );
   }
 
@@ -176,7 +62,7 @@ var App = _react2.default.createClass({
 
 exports.default = App;
 
-},{"../../../../src/Collapsible":161,"react":160}],3:[function(require,module,exports){
+},{"../../../../src/StageIndicator":161,"react":160}],3:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -1453,6 +1339,9 @@ var currentQueue;
 var queueIndex = -1;
 
 function cleanUpNextTick() {
+    if (!draining || !currentQueue) {
+        return;
+    }
     draining = false;
     if (currentQueue.length) {
         queue = currentQueue.concat(queue);
@@ -11155,6 +11044,10 @@ var ReactEmptyComponentInjection = {
   }
 };
 
+function registerNullComponentID() {
+  ReactEmptyComponentRegistry.registerNullComponentID(this._rootNodeID);
+}
+
 var ReactEmptyComponent = function (instantiate) {
   this._currentElement = null;
   this._rootNodeID = null;
@@ -11163,7 +11056,7 @@ var ReactEmptyComponent = function (instantiate) {
 assign(ReactEmptyComponent.prototype, {
   construct: function (element) {},
   mountComponent: function (rootID, transaction, context) {
-    ReactEmptyComponentRegistry.registerNullComponentID(rootID);
+    transaction.getReactMountReady().enqueue(registerNullComponentID, this);
     this._rootNodeID = rootID;
     return ReactReconciler.mountComponent(this._renderedComponent, rootID, transaction, context);
   },
@@ -15469,7 +15362,7 @@ module.exports = ReactUpdates;
 
 'use strict';
 
-module.exports = '0.14.7';
+module.exports = '0.14.8';
 },{}],116:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -19215,204 +19108,85 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
 var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var Collapsible = _react2.default.createClass({
-  displayName: 'Collapsible',
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
-  //Set validation for prop types
-  propTypes: {
-    transitionTime: _react2.default.PropTypes.number,
-    triggerText: _react2.default.PropTypes.string.isRequired,
-    triggerTextWhenOpen: _react2.default.PropTypes.string,
-    easing: _react2.default.PropTypes.string,
-    open: _react2.default.PropTypes.bool,
-    classParentString: _react2.default.PropTypes.string,
-    accordionPosition: _react2.default.PropTypes.number,
-    handleTriggerClick: _react2.default.PropTypes.func
-  },
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-  //If no transition time or easing is passed then default to this
-  getDefaultProps: function getDefaultProps() {
-    return {
-      transitionTime: 400,
-      easing: 'linear',
-      open: false,
-      classParentString: 'Collapsible'
-    };
-  },
+var StageIndicator = function (_React$Component) {
+  _inherits(StageIndicator, _React$Component);
 
-  //Defaults the dropdown to be closed
-  getInitialState: function getInitialState() {
+  function StageIndicator(props) {
+    _classCallCheck(this, StageIndicator);
 
-    if (this.props.open) {
-      return {
-        isClosed: false,
-        shouldSwitchAutoOnNextCycle: false,
-        height: 'auto',
-        transition: 'none'
-      };
-    } else {
-      return {
-        isClosed: true,
-        shouldSwitchAutoOnNextCycle: false,
-        height: 0,
-        transition: 'height ' + this.props.transitionTime + 'ms ' + this.props.easing
-      };
-    }
-  },
-
-  // Taken from https://github.com/EvandroLG/transitionEnd/
-  // Determines which prefixed event to listen for
-  whichTransitionEnd: function whichTransitionEnd(element) {
-    var transitions = {
-      'WebkitTransition': 'webkitTransitionEnd',
-      'MozTransition': 'transitionend',
-      'OTransition': 'oTransitionEnd otransitionend',
-      'transition': 'transitionend'
-    };
-
-    for (var t in transitions) {
-      if (element.style[t] !== undefined) {
-        return transitions[t];
-      }
-    }
-  },
-
-  componentDidMount: function componentDidMount() {
-    var _this = this;
-
-    //Set up event listener to listen to transitionend so we can switch the height from fixed pixel to auto for much responsiveness;
-    //TODO:  Once Synthetic transitionend events have been exposed in the next release of React move this funciton to a function handed to the onTransitionEnd prop
-
-    this.refs.outer.addEventListener(this.whichTransitionEnd(this.refs.outer), function (event) {
-      if (_this.state.isClosed === false) {
-        _this.setState({
-          shouldSwitchAutoOnNextCycle: true
-        });
-      }
-    });
-  },
-
-  componentDidUpdate: function componentDidUpdate(prevProps) {
-
-    if (this.state.shouldSwitchAutoOnNextCycle === true && this.state.isClosed === false) {
-      //Set the height to auto to make compoenent re-render with the height set to auto.
-      //This way the dropdown will be responsive and also change height if there is another dropdown within it.
-      this.makeResponsive();
-    }
-
-    if (this.state.shouldSwitchAutoOnNextCycle === true && this.state.isClosed === true) {
-      this.prepareToOpen();
-    }
-
-    //If there has been a change in the open prop (controlled by accordion)
-    if (prevProps.open != this.props.open) {
-      console.log('Open state changed!', this.props.accordionPosition);
-
-      if (this.props.open === true) {
-        this.openCollasible();
-      } else {
-        this.closeCollapsible();
-      }
-    }
-  },
-
-  handleTriggerClick: function handleTriggerClick(event) {
-
-    event.preventDefault();
-
-    if (this.props.handleTriggerClick) {
-      this.props.handleTriggerClick(this.props.accordionPosition);
-    } else {
-
-      if (this.state.isClosed === true) {
-        this.openCollasible();
-      } else {
-        this.closeCollapsible();
-      }
-    }
-  },
-
-  closeCollapsible: function closeCollapsible() {
-    this.setState({
-      isClosed: true,
-      shouldSwitchAutoOnNextCycle: true,
-      height: this.refs.inner.offsetHeight
-    });
-  },
-
-  openCollasible: function openCollasible() {
-    this.setState({
-      height: this.refs.inner.offsetHeight,
-      transition: 'height ' + this.props.transitionTime + 'ms ' + this.props.easing,
-      isClosed: false
-    });
-  },
-
-  makeResponsive: function makeResponsive() {
-    this.setState({
-      height: 'auto',
-      transition: 'none',
-      shouldSwitchAutoOnNextCycle: false
-    });
-  },
-
-  prepareToOpen: function prepareToOpen() {
-    var _this2 = this;
-
-    //The height has been changes back to fixed pixel, we set a small timeout to force the CSS transition back to 0 on the next tick.
-    window.setTimeout(function () {
-      _this2.setState({
-        height: 0,
-        shouldSwitchAutoOnNextCycle: false,
-        transition: 'height ' + _this2.props.transitionTime + 'ms ' + _this2.props.easing
-      });
-    }, 50);
-  },
-
-  render: function render() {
-
-    var dropdownStyle = {
-      height: this.state.height,
-      WebkitTransition: this.state.transition,
-      msTransition: this.state.transition,
-      transition: this.state.transition,
-      overflow: 'hidden'
-    };
-
-    var openClass = this.state.isClosed ? 'is-closed' : 'is-open';
-
-    //If user wants different text when tray is open
-    var triggerText = this.state.isClosed === false && this.props.triggerTextWhenOpen !== undefined ? this.props.triggerTextWhenOpen : this.props.triggerText;
-
-    return _react2.default.createElement(
-      'div',
-      { className: this.props.classParentString },
-      _react2.default.createElement(
-        'a',
-        { href: '#', className: this.props.classParentString + "__trigger" + ' ' + openClass, onClick: this.handleTriggerClick },
-        triggerText
-      ),
-      _react2.default.createElement(
-        'div',
-        { className: this.props.classParentString + "__contentOuter", ref: 'outer', style: dropdownStyle },
-        _react2.default.createElement(
-          'div',
-          { className: this.props.classParentString + "__contentInner", ref: 'inner' },
-          this.props.children
-        )
-      )
-    );
+    return _possibleConstructorReturn(this, Object.getPrototypeOf(StageIndicator).call(this, props));
   }
 
-});
+  _createClass(StageIndicator, [{
+    key: 'render',
+    value: function render() {
+      var _this2 = this;
 
-exports.default = Collapsible;
+      var barStyle = {
+        position: 'relative'
+      };
+
+      var pipWidth = 100 / this.props.numberOfStages;
+
+      var pipStyle = {
+        width: pipWidth + "%",
+        position: 'absolute',
+        top: 0,
+        left: this.props.currentStage * pipWidth - pipWidth + "%"
+      };
+
+      var labelNodes = this.props.labels.map(function (label, index) {
+        // If the label index is the same currentStage then add the active class
+        var labelClassString = index + 1 === _this2.props.currentStage ? _this2.props.baseCSSClass + "__label " + _this2.props.baseCSSClass + "__label--active" : _this2.props.baseCSSClass + "__label";
+
+        return _react2.default.createElement(
+          'div',
+          { className: labelClassString, key: "label" + index },
+          label
+        );
+      });
+
+      return _react2.default.createElement(
+        'div',
+        { className: this.props.baseCSSClass },
+        _react2.default.createElement(
+          'div',
+          { className: this.props.baseCSSClass + "__labels" },
+          labelNodes
+        ),
+        _react2.default.createElement(
+          'div',
+          { className: this.props.baseCSSClass + "__bar", style: barStyle },
+          _react2.default.createElement('div', { className: this.props.baseCSSClass + "__pip", style: pipStyle })
+        )
+      );
+    }
+  }]);
+
+  return StageIndicator;
+}(_react2.default.Component);
+
+StageIndicator.propTypes = {
+  numberOfStages: _react2.default.PropTypes.number.isRequired,
+  currentStage: _react2.default.PropTypes.number.isRequired,
+  baseCSSClass: _react2.default.PropTypes.string.isRequired,
+  labels: _react2.default.PropTypes.array.isRequired
+};
+
+exports.default = StageIndicator;
 
 },{"react":160}]},{},[1]);

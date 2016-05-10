@@ -81,12 +81,13 @@ html {
   font-size: 16px; }
 
 body {
-  background-color: #333333;
+  background-color: #ebebeb;
   font-family: 'Roboto', sans-serif;
-  padding-top: 50px; }
+  padding-top: 50px;
+  color: #333333; }
 
 h1 {
-  color: white;
+  color: #333333;
   text-align: center;
   font-size: 30px;
   margin-bottom: 50px; }
@@ -102,37 +103,32 @@ h2 {
   margin-left: auto;
   margin-right: auto; }
 
-.Collapsible {
-  background-color: white; }
+.StageIndicator {
+  width: 100%; }
 
-.Collapsible__contentInner {
-  padding: 10px;
-  border: 1px solid #ebebeb;
-  border-top: 0; }
-  .Collapsible__contentInner p {
-    margin-bottom: 10px;
-    font-size: 14px;
-    line-height: 20px; }
-    .Collapsible__contentInner p:last-child {
-      margin-bottom: 0; }
+.StageIndicator__bar {
+  height: 10px;
+  background-color: grey; }
 
-.Collapsible__trigger {
-  display: block;
-  font-weight: 400;
-  text-decoration: none;
-  color: #333333;
-  position: relative;
-  border: 1px solid white;
+.StageIndicator__pip {
+  height: 10px;
+  background-color: red;
+  transition: left 200ms ease-out; }
+
+.StageIndicator__labels {
+  display: flex; }
+
+.StageIndicator__label {
+  width: 100%;
+  text-align: center;
   padding: 10px;
-  background: #00ac9d;
-  color: white; }
-  .Collapsible__trigger:after {
+  position: relative; }
+  .StageIndicator__label:after {
+    content: '\f054';
     font-family: 'FontAwesome';
-    content: '\f107';
     position: absolute;
-    right: 10px;
-    top: 10px;
-    display: block;
-    transition: transform 300ms; }
-  .Collapsible__trigger.is-open:after {
-    transform: rotateZ(180deg); }
+    right: -5px; }
+  .StageIndicator__label:last-child:after {
+    content: none; }
+  .StageIndicator__label.StageIndicator__label--active {
+    color: red; }

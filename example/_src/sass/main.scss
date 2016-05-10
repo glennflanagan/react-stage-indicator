@@ -9,13 +9,14 @@ html {
 }
 
 body {
-  background-color: $grey;
+  background-color: $lightGrey;
   font-family: 'Roboto', sans-serif;
   padding-top: 50px;
+  color: $grey;
 }
 
 h1 {
-  color: white;
+  color: $grey;
   text-align: center;
   font-size: 30px;
   margin-bottom: 50px;
@@ -34,4 +35,4 @@ h2 {
   margin-right: auto;
 }
 
-@import "components/Collapsible";
+@import "components/StageIndicator";
