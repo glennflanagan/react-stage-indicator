@@ -19137,7 +19137,8 @@ var StageIndicator = function (_React$Component) {
       var _this2 = this;
 
       var barStyle = {
-        position: 'relative'
+        position: 'relative',
+        overflow: 'hidden'
       };
 
       var pipWidth = 100 / this.props.numberOfStages;

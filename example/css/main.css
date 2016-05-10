@@ -127,7 +127,9 @@ h2 {
     content: '\f054';
     font-family: 'FontAwesome';
     position: absolute;
-    right: -5px; }
+    right: -5px;
+    top: 50%;
+    transform: translateY(-50%); }
   .StageIndicator__label:last-child:after {
     content: none; }
   .StageIndicator__label.StageIndicator__label--active {

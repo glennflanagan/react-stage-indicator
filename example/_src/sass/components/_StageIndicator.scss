@@ -32,6 +32,8 @@ $barHeight : 10px;
     font-family: 'FontAwesome';
     position: absolute;
     right: -5px;
+    top: 50%;
+    transform: translateY(-50%);
   }
   &:last-child:after {
     content: none;

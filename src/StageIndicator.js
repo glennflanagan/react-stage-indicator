@@ -9,7 +9,8 @@ class StageIndicator extends React.Component {
   render() {
 
     const barStyle = {
-      position: 'relative'
+      position: 'relative',
+      overflow: 'hidden'
     }
 
     const pipWidth = 100 / this.props.numberOfStages;
