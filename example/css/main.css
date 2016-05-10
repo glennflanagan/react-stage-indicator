@@ -112,7 +112,7 @@ h2 {
 
 .StageIndicator__pip {
   height: 5px;
-  background-color: #cc2036;
+  background-color: blue;
   transition: left 150ms ease-out; }
 
 .StageIndicator__labels {
@@ -133,11 +133,11 @@ h2 {
   .StageIndicator__label:last-child:after {
     content: none; }
   .StageIndicator__label.StageIndicator__label--active {
-    color: #cc2036; }
+    color: blue; }
 
 .StageIndicator__link {
   text-decoration: none; }
   .StageIndicator__link:link, .StageIndicator__link:visited {
-    color: #cc2036; }
+    color: blue; }
   .StageIndicator__link:hover, .StageIndicator__link:active {
     text-decoration: underline; }
