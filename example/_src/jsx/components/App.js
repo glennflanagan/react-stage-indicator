@@ -14,6 +14,33 @@ var App = React.createClass({
         'Stage Three',
         'Stage Four',
         'Stage Five',
+      ],
+      stages: [
+        {
+          label: 'Stage One',
+          canSkipToThisStage: true,
+          clickHandler: this.handleClick
+        },
+        {
+          label: 'Stage Two',
+          canSkipToThisStage: true,
+          clickHandler: this.handleClick
+        },
+        {
+          label: 'Stage Three',
+          canSkipToThisStage: true,
+          clickHandler: this.handleClick
+        },
+        {
+          label: 'Stage Four',
+          canSkipToThisStage: true,
+          clickHandler: this.handleClick
+        },
+        {
+          label: 'Stage Five',
+          canSkipToThisStage: false,
+          clickHandler: this.handleClick
+        }
       ]
     }
   },
@@ -31,11 +58,10 @@ var App = React.createClass({
       <div>
 
         <StageIndicator
-          numberOfStages={this.state.numberOfStages}
           currentStage={this.state.currentStage}
           baseCSSClass="StageIndicator"
-          labels={this.state.labels}
-          handleClick={this.handleClick} />
+          handleClick={this.handleClick}
+          stages={this.state.stages} />
 
       </div>
     );

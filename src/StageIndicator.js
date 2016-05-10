@@ -18,7 +18,7 @@ class StageIndicator extends React.Component {
       overflow: 'hidden'
     }
 
-    const pipWidth = 100 / this.props.numberOfStages;
+    const pipWidth = 100 / this.props.stages.length;
 
     let pipStyle = {
       width: pipWidth + "%",
@@ -27,31 +27,32 @@ class StageIndicator extends React.Component {
       left: (this.props.currentStage * pipWidth) - pipWidth + "%"
     }
 
-    const labelNodes = this.props.labels.map((label, index)=>{
-      // If the label index is the same currentStage then add the active class
-      let labelClassString = (index+1 === this.props.currentStage) ? this.props.baseCSSClass + "__label " + this.props.baseCSSClass + "__label--active" : this.props.baseCSSClass + "__label";
+    const baseClass = this.props.baseCSSClass;
 
-      if(index+1 < this.props.currentStage) {
+    const labelNodes = this.props.stages.map((stage, index)=>{
+      // If the label index is the same currentStage then add the active class
+      let labelClassString = (index+1 === this.props.currentStage) ? baseClass + "__label " + baseClass + "__label--active" : baseClass + "__label";
+
+      //If the stage can be skipped to then include the link
+      if(stage.canSkipToThisStage && this.props.currentStage != index+1) {
         return (
-          <div className={labelClassString} key={"label" + index}><a onClick={this.handleClick.bind(this, index+1)} href="#">{label}</a></div>
+          <div className={labelClassString} key={"label" + index}><a className={baseClass + "__link"} onClick={stage.clickHandler.bind(null, index+1)} href="#">{stage.label}</a></div>
         )
       }
       else {
         return (
-          <div className={labelClassString} key={"label" + index}>{label}</div>
+          <div className={labelClassString} key={"label" + index}>{stage.label}</div>
         )
       }
-
-
     });
 
     return(
-      <div className={this.props.baseCSSClass}>
-        <div className={this.props.baseCSSClass + "__labels"}>
+      <div className={baseClass}>
+        <div className={baseClass + "__labels"}>
           {labelNodes}
         </div>
-        <div className={this.props.baseCSSClass + "__bar"} style={barStyle}>
-          <div className={this.props.baseCSSClass + "__pip"} style={pipStyle}>
+        <div className={baseClass + "__bar"} style={barStyle}>
+          <div className={baseClass + "__pip"} style={pipStyle}>
           </div>
         </div>
       </div>
@@ -61,10 +62,13 @@ class StageIndicator extends React.Component {
 }
 
 StageIndicator.propTypes = {
-  numberOfStages: React.PropTypes.number.isRequired,
+  stages: React.PropTypes.arrayOf(React.PropTypes.shape({
+    label: React.PropTypes.string.isRequired,
+    canSkipToThisStage: React.PropTypes.bool.isRequired,
+    clickHandler: React.PropTypes.func.isRequired
+  })).isRequired,
   currentStage: React.PropTypes.number.isRequired,
   baseCSSClass: React.PropTypes.string.isRequired,
-  labels: React.PropTypes.array.isRequired,
   handleClick: React.PropTypes.func.isRequired
 }
 

@@ -42,7 +42,28 @@ var App = _react2.default.createClass({
     return {
       numberOfStages: 5,
       currentStage: 3,
-      labels: ['Stage One', 'Stage Two', 'Stage Three', 'Stage Four', 'Stage Five']
+      labels: ['Stage One', 'Stage Two', 'Stage Three', 'Stage Four', 'Stage Five'],
+      stages: [{
+        label: 'Stage One',
+        canSkipToThisStage: true,
+        clickHandler: this.handleClick
+      }, {
+        label: 'Stage Two',
+        canSkipToThisStage: true,
+        clickHandler: this.handleClick
+      }, {
+        label: 'Stage Three',
+        canSkipToThisStage: true,
+        clickHandler: this.handleClick
+      }, {
+        label: 'Stage Four',
+        canSkipToThisStage: true,
+        clickHandler: this.handleClick
+      }, {
+        label: 'Stage Five',
+        canSkipToThisStage: false,
+        clickHandler: this.handleClick
+      }]
     };
   },
 
@@ -59,11 +80,10 @@ var App = _react2.default.createClass({
       'div',
       null,
       _react2.default.createElement(_StageIndicator2.default, {
-        numberOfStages: this.state.numberOfStages,
         currentStage: this.state.currentStage,
         baseCSSClass: 'StageIndicator',
-        labels: this.state.labels,
-        handleClick: this.handleClick })
+        handleClick: this.handleClick,
+        stages: this.state.stages })
     );
   }
 
@@ -19156,7 +19176,7 @@ var StageIndicator = function (_React$Component) {
         overflow: 'hidden'
       };
 
-      var pipWidth = 100 / this.props.numberOfStages;
+      var pipWidth = 100 / this.props.stages.length;
 
       var pipStyle = {
         width: pipWidth + "%",
@@ -19165,41 +19185,44 @@ var StageIndicator = function (_React$Component) {
         left: this.props.currentStage * pipWidth - pipWidth + "%"
       };
 
-      var labelNodes = this.props.labels.map(function (label, index) {
-        // If the label index is the same currentStage then add the active class
-        var labelClassString = index + 1 === _this2.props.currentStage ? _this2.props.baseCSSClass + "__label " + _this2.props.baseCSSClass + "__label--active" : _this2.props.baseCSSClass + "__label";
+      var baseClass = this.props.baseCSSClass;
 
-        if (index + 1 < _this2.props.currentStage) {
+      var labelNodes = this.props.stages.map(function (stage, index) {
+        // If the label index is the same currentStage then add the active class
+        var labelClassString = index + 1 === _this2.props.currentStage ? baseClass + "__label " + baseClass + "__label--active" : baseClass + "__label";
+
+        //If the stage can be skipped to then include the link
+        if (stage.canSkipToThisStage && _this2.props.currentStage != index + 1) {
           return _react2.default.createElement(
             'div',
             { className: labelClassString, key: "label" + index },
             _react2.default.createElement(
               'a',
-              { onClick: _this2.handleClick.bind(_this2, index + 1), href: '#' },
-              label
+              { className: baseClass + "__link", onClick: stage.clickHandler.bind(null, index + 1), href: '#' },
+              stage.label
             )
           );
         } else {
           return _react2.default.createElement(
             'div',
             { className: labelClassString, key: "label" + index },
-            label
+            stage.label
           );
         }
       });
 
       return _react2.default.createElement(
         'div',
-        { className: this.props.baseCSSClass },
+        { className: baseClass },
         _react2.default.createElement(
           'div',
-          { className: this.props.baseCSSClass + "__labels" },
+          { className: baseClass + "__labels" },
           labelNodes
         ),
         _react2.default.createElement(
           'div',
-          { className: this.props.baseCSSClass + "__bar", style: barStyle },
-          _react2.default.createElement('div', { className: this.props.baseCSSClass + "__pip", style: pipStyle })
+          { className: baseClass + "__bar", style: barStyle },
+          _react2.default.createElement('div', { className: baseClass + "__pip", style: pipStyle })
         )
       );
     }
@@ -19209,10 +19232,13 @@ var StageIndicator = function (_React$Component) {
 }(_react2.default.Component);
 
 StageIndicator.propTypes = {
-  numberOfStages: _react2.default.PropTypes.number.isRequired,
+  stages: _react2.default.PropTypes.arrayOf(_react2.default.PropTypes.shape({
+    label: _react2.default.PropTypes.string.isRequired,
+    canSkipToThisStage: _react2.default.PropTypes.bool.isRequired,
+    clickHandler: _react2.default.PropTypes.func.isRequired
+  })).isRequired,
   currentStage: _react2.default.PropTypes.number.isRequired,
   baseCSSClass: _react2.default.PropTypes.string.isRequired,
-  labels: _react2.default.PropTypes.array.isRequired,
   handleClick: _react2.default.PropTypes.func.isRequired
 };
 

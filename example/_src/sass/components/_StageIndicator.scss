@@ -44,3 +44,15 @@ $barHeight : 10px;
     color: red;
   }
 }
+
+.StageIndicator__link {
+  text-decoration: none;
+
+  &:link, &:visited {
+    color: red;
+  }
+
+  &:hover, &:active {
+    text-decoration: underline;
+  }
+}

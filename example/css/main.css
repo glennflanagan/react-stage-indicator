@@ -134,3 +134,10 @@ h2 {
     content: none; }
   .StageIndicator__label.StageIndicator__label--active {
     color: red; }
+
+.StageIndicator__link {
+  text-decoration: none; }
+  .StageIndicator__link:link, .StageIndicator__link:visited {
+    color: red; }
+  .StageIndicator__link:hover, .StageIndicator__link:active {
+    text-decoration: underline; }
