@@ -41,9 +41,17 @@ var App = _react2.default.createClass({
   getInitialState: function getInitialState() {
     return {
       numberOfStages: 5,
-      currentStage: 2,
+      currentStage: 3,
       labels: ['Stage One', 'Stage Two', 'Stage Three', 'Stage Four', 'Stage Five']
     };
+  },
+
+  handleClick: function handleClick(stageNumber) {
+    console.log('Fire Action to change stage to: ', stageNumber);
+
+    this.setState({
+      currentStage: stageNumber
+    });
   },
 
   render: function render() {
@@ -54,7 +62,8 @@ var App = _react2.default.createClass({
         numberOfStages: this.state.numberOfStages,
         currentStage: this.state.currentStage,
         baseCSSClass: 'StageIndicator',
-        labels: this.state.labels })
+        labels: this.state.labels,
+        handleClick: this.handleClick })
     );
   }
 
@@ -19132,6 +19141,12 @@ var StageIndicator = function (_React$Component) {
   }
 
   _createClass(StageIndicator, [{
+    key: 'handleClick',
+    value: function handleClick(index) {
+      event.preventDefault();
+      this.props.handleClick(index);
+    }
+  }, {
     key: 'render',
     value: function render() {
       var _this2 = this;
@@ -19154,11 +19169,23 @@ var StageIndicator = function (_React$Component) {
         // If the label index is the same currentStage then add the active class
         var labelClassString = index + 1 === _this2.props.currentStage ? _this2.props.baseCSSClass + "__label " + _this2.props.baseCSSClass + "__label--active" : _this2.props.baseCSSClass + "__label";
 
-        return _react2.default.createElement(
-          'div',
-          { className: labelClassString, key: "label" + index },
-          label
-        );
+        if (index + 1 < _this2.props.currentStage) {
+          return _react2.default.createElement(
+            'div',
+            { className: labelClassString, key: "label" + index },
+            _react2.default.createElement(
+              'a',
+              { onClick: _this2.handleClick.bind(_this2, index + 1), href: '#' },
+              label
+            )
+          );
+        } else {
+          return _react2.default.createElement(
+            'div',
+            { className: labelClassString, key: "label" + index },
+            label
+          );
+        }
       });
 
       return _react2.default.createElement(
@@ -19185,7 +19212,8 @@ StageIndicator.propTypes = {
   numberOfStages: _react2.default.PropTypes.number.isRequired,
   currentStage: _react2.default.PropTypes.number.isRequired,
   baseCSSClass: _react2.default.PropTypes.string.isRequired,
-  labels: _react2.default.PropTypes.array.isRequired
+  labels: _react2.default.PropTypes.array.isRequired,
+  handleClick: _react2.default.PropTypes.func.isRequired
 };
 
 exports.default = StageIndicator;

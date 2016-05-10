@@ -7,7 +7,7 @@ var App = React.createClass({
   getInitialState: function() {
     return {
       numberOfStages: 5,
-      currentStage: 2,
+      currentStage: 3,
       labels: [
         'Stage One',
         'Stage Two',
@@ -18,6 +18,13 @@ var App = React.createClass({
     }
   },
 
+  handleClick: function(stageNumber) {
+    console.log('Fire Action to change stage to: ', stageNumber);
+
+    this.setState({
+      currentStage: stageNumber
+    });
+  },
 
   render: function() {
     return(
@@ -27,7 +34,8 @@ var App = React.createClass({
           numberOfStages={this.state.numberOfStages}
           currentStage={this.state.currentStage}
           baseCSSClass="StageIndicator"
-          labels={this.state.labels} />
+          labels={this.state.labels}
+          handleClick={this.handleClick} />
 
       </div>
     );

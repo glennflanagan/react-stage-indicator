@@ -6,6 +6,11 @@ class StageIndicator extends React.Component {
     super(props);
   }
 
+  handleClick(index) {
+    event.preventDefault();
+    this.props.handleClick(index);
+  }
+
   render() {
 
     const barStyle = {
@@ -26,9 +31,18 @@ class StageIndicator extends React.Component {
       // If the label index is the same currentStage then add the active class
       let labelClassString = (index+1 === this.props.currentStage) ? this.props.baseCSSClass + "__label " + this.props.baseCSSClass + "__label--active" : this.props.baseCSSClass + "__label";
 
-      return (
-        <div className={labelClassString} key={"label" + index}>{label}</div>
-      )
+      if(index+1 < this.props.currentStage) {
+        return (
+          <div className={labelClassString} key={"label" + index}><a onClick={this.handleClick.bind(this, index+1)} href="#">{label}</a></div>
+        )
+      }
+      else {
+        return (
+          <div className={labelClassString} key={"label" + index}>{label}</div>
+        )
+      }
+
+
     });
 
     return(
@@ -50,7 +64,8 @@ StageIndicator.propTypes = {
   numberOfStages: React.PropTypes.number.isRequired,
   currentStage: React.PropTypes.number.isRequired,
   baseCSSClass: React.PropTypes.string.isRequired,
-  labels: React.PropTypes.array.isRequired
+  labels: React.PropTypes.array.isRequired,
+  handleClick: React.PropTypes.func.isRequired
 }
 
 
