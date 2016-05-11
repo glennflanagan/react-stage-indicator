@@ -137,21 +137,54 @@ var Calendar = function (_React$Component) {
 
     var now = (0, _moment2.default)();
     _this.state = {
-      monthToDisplay: 0, //now.month()
-      yearToDisplay: now.year()
+      displayingMoment: now,
+      selectedDate: null
     };
 
     return _this;
   }
 
   _createClass(Calendar, [{
+    key: 'handleDateCellClick',
+    value: function handleDateCellClick(date) {
+      this.setState({
+        selectedDate: date
+      });
+
+      this.props.handleChange(date);
+    }
+
+    //Decrease Month
+
+  }, {
+    key: 'handlePrevClick',
+    value: function handlePrevClick() {
+      this.setState({
+        displayingMoment: this.state.displayingMoment.subtract(1, 'month')
+      });
+    }
+
+    //Increase Month
+
+  }, {
+    key: 'handleNextClick',
+    value: function handleNextClick() {
+      this.setState({
+        displayingMoment: this.state.displayingMoment.add(1, 'month')
+      });
+    }
+
+    //Output the days of the week text
+
+  }, {
     key: 'renderDaysHeader',
     value: function renderDaysHeader() {
+      var _this2 = this;
 
       return DAYS.map(function (day, index) {
         return _react2.default.createElement(
           'th',
-          { key: "DayHeader" + index },
+          { className: _this2.props.clsName + '__headerCell', key: "DayHeader" + index },
           day
         );
       });
@@ -160,16 +193,13 @@ var Calendar = function (_React$Component) {
     key: 'renderCalendarBody',
     value: function renderCalendarBody() {
 
-      var daysInThisMonth = (0, _moment2.default)(this.state.yearToDisplay + '-' + (this.state.monthToDisplay + 1), 'YYYY-MM').daysInMonth(),
-          whatDayIsFirstOfMonth = (0, _moment2.default)(this.state.yearToDisplay + '-' + (this.state.monthToDisplay + 1) + '-01', 'YYYY-MM-DD').day();
-
-      console.log('Days in this month: ', daysInThisMonth);
-      console.log('Days of the first: ', whatDayIsFirstOfMonth);
-
-      var firstRowNodes = [];
-      var offset = -whatDayIsFirstOfMonth;
-      var counter = 0;
-      var nodes = [];
+      var daysInThisMonth = (0, _moment2.default)(this.state.displayingMoment.year() + '-' + (this.state.displayingMoment.month() + 1), 'YYYY-MM').daysInMonth(),
+          whatDayIsFirstOfMonth = (0, _moment2.default)(this.state.displayingMoment.year() + '-' + (this.state.displayingMoment.month() + 1) + '-01', 'YYYY-MM-DD').day(),
+          firstRowNodes = [],
+          offset = -whatDayIsFirstOfMonth,
+          counter = 0,
+          rowCounter = 0,
+          nodes = [];
 
       //Generate the first row offset based on where the month begins
       for (var i = 1; i < 8; i++) {
@@ -186,9 +216,11 @@ var Calendar = function (_React$Component) {
 
       nodes.push(_react2.default.createElement(
         'tr',
-        null,
+        { key: "CalTabRow" + rowCounter, className: this.props.clsName + '__row' },
         firstRowNodes
       ));
+
+      rowCounter++;
 
       while (counter <= daysInThisMonth) {
         var subRows = [];
@@ -205,9 +237,10 @@ var Calendar = function (_React$Component) {
 
         nodes.push(_react2.default.createElement(
           'tr',
-          null,
+          { key: "CalTabRow" + rowCounter, className: this.props.clsName + '__row' },
           subRows
         ));
+        rowCounter++;
       }
 
       return nodes;
@@ -215,44 +248,82 @@ var Calendar = function (_React$Component) {
   }, {
     key: 'renderCalendarCell',
     value: function renderCalendarCell(number) {
-      return _react2.default.createElement(
-        'td',
-        null,
-        number
-      );
+
+      var key = number === null ? null : 'CalCell' + number;
+
+      //if the cell is empty output a random key
+      if (number === null) {
+        return _react2.default.createElement(
+          'td',
+          { key: "NullCell" + Math.floor(Math.random() * 999999999) + 1 },
+          number
+        );
+      } else {
+
+        var date = (0, _moment2.default)(this.state.displayingMoment.year() + '-' + (this.state.displayingMoment.month() + 1) + '-' + number, 'YYYY-MM-DD'),
+            dateString = date.format('YYYY-MM-DD'),
+            classString = date.isSame(this.state.selectedDate) ? this.props.clsName + '__date ' + this.props.clsName + '__date--active' : this.props.clsName + '__date';
+
+        if (this.props.isDateActive()) {
+          return _react2.default.createElement(
+            'td',
+            { key: key, className: classString, onClick: this.handleDateCellClick.bind(this, dateString) },
+            number
+          );
+        } else {
+          return _react2.default.createElement(
+            'td',
+            { key: key, className: this.props.clsName + '__date ' + this.props.clsName + '__date--inactive' },
+            number
+          );
+        }
+      }
     }
   }, {
     key: 'renderCalendarHeader',
     value: function renderCalendarHeader() {
 
-      var headerDate = (0, _moment2.default)(this.state.yearToDisplay + '-' + (this.state.monthToDisplay + 1), 'YYYY-MM').format('MMMM YYYY');
+      var headerDate = (0, _moment2.default)(this.state.displayingMoment.year() + '-' + (this.state.displayingMoment.month() + 1), 'YYYY-MM').format('MMMM YYYY');
 
       return _react2.default.createElement(
         'div',
         null,
-        headerDate
+        _react2.default.createElement(
+          'a',
+          { href: '#', onClick: this.handlePrevClick.bind(this) },
+          'Prev'
+        ),
+        headerDate,
+        _react2.default.createElement(
+          'a',
+          { href: '#', onClick: this.handleNextClick.bind(this) },
+          'Next'
+        )
       );
     }
   }, {
     key: 'render',
     value: function render() {
+      var clsName = this.props.clsName;
+
+
       return _react2.default.createElement(
         'div',
-        null,
+        { className: clsName },
         _react2.default.createElement(
           'header',
-          null,
+          { className: clsName + '__header' },
           this.renderCalendarHeader()
         ),
         _react2.default.createElement(
           'table',
-          null,
+          { className: clsName + '__table' },
           _react2.default.createElement(
             'thead',
             null,
             _react2.default.createElement(
               'tr',
-              null,
+              { className: this.props.clsName + '__headerRow' },
               this.renderDaysHeader()
             )
           ),
@@ -268,6 +339,22 @@ var Calendar = function (_React$Component) {
 
   return Calendar;
 }(_react2.default.Component);
+
+Calendar.defaultProps = {
+  clsName: "calendar",
+  isDateActive: function isDateActive() {
+    return true;
+  },
+  handleChange: function handleChange(date) {
+    console.log('Date changed: ', date);
+  }
+};
+
+Calendar.PropTypes = {
+  clsName: _react2.default.PropTypes.string,
+  isDateActive: _react2.default.PropTypes.func,
+  handleChange: _react2.default.PropTypes.func
+};
 
 exports.default = Calendar;
 

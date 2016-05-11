@@ -11,32 +11,50 @@ class Calendar extends React.Component {
     super(props);
     let now = moment();
     this.state = {
-      monthToDisplay: 0, //now.month()
-      yearToDisplay: now.year()
+      displayingMoment: now,
+      selectedDate: null
     }
 
   }
 
-  renderDaysHeader() {
-
-    return DAYS.map((day, index)=>{
-      return <th key={"DayHeader"+index}>{day}</th>
+  handleDateCellClick(date) {
+    this.setState({
+      selectedDate: date
     });
 
+    this.props.handleChange(date);
+  }
+
+  //Decrease Month
+  handlePrevClick() {
+    this.setState({
+      displayingMoment: this.state.displayingMoment.subtract(1, 'month')
+    });
+  }
+
+  //Increase Month
+  handleNextClick() {
+    this.setState({
+      displayingMoment: this.state.displayingMoment.add(1, 'month')
+    });
+  }
+
+  //Output the days of the week text
+  renderDaysHeader() {
+    return DAYS.map((day, index)=>{
+      return <th className={this.props.clsName + '__headerCell'} key={"DayHeader"+index}>{day}</th>
+    });
   }
 
   renderCalendarBody() {
 
-    let daysInThisMonth = moment(this.state.yearToDisplay + '-' + (this.state.monthToDisplay + 1), 'YYYY-MM').daysInMonth(),
-        whatDayIsFirstOfMonth = moment(this.state.yearToDisplay + '-' + (this.state.monthToDisplay + 1) + '-01', 'YYYY-MM-DD').day();
-
-        console.log('Days in this month: ', daysInThisMonth);
-        console.log('Days of the first: ', whatDayIsFirstOfMonth);
-
-        var firstRowNodes = [];
-        var offset = -whatDayIsFirstOfMonth;
-        var counter = 0;
-        var nodes = [];
+    let daysInThisMonth = moment(this.state.displayingMoment.year() + '-' + (this.state.displayingMoment.month() + 1), 'YYYY-MM').daysInMonth(),
+        whatDayIsFirstOfMonth = moment(this.state.displayingMoment.year() + '-' + (this.state.displayingMoment.month() + 1) + '-01', 'YYYY-MM-DD').day(),
+        firstRowNodes = [],
+        offset = -whatDayIsFirstOfMonth,
+        counter = 0,
+        rowCounter = 0,
+        nodes = [];
 
         //Generate the first row offset based on where the month begins
         for (var i = 1; i < 8; i++) {
@@ -53,10 +71,12 @@ class Calendar extends React.Component {
         counter++;
 
         nodes.push(
-          <tr>
+          <tr key={"CalTabRow" + rowCounter} className={this.props.clsName + '__row'} >
             {firstRowNodes}
           </tr>
         );
+
+        rowCounter++;
 
         while(counter <= daysInThisMonth) {
           let subRows = [];
@@ -73,7 +93,8 @@ class Calendar extends React.Component {
             counter++;
           }
 
-          nodes.push(<tr>{subRows}</tr>)
+          nodes.push(<tr key={"CalTabRow" + rowCounter} className={this.props.clsName + '__row'}>{subRows}</tr>);
+          rowCounter++
         }
 
 
@@ -83,29 +104,59 @@ class Calendar extends React.Component {
   }
 
   renderCalendarCell(number) {
-    return(
-      <td>{number}</td>
-    );
+
+    let key = (number === null) ? null : 'CalCell'+number;
+
+    //if the cell is empty output a random key
+    if(number === null) {
+      return(
+        <td key={"NullCell" + Math.floor(Math.random() * 999999999) + 1 }>{number}</td>
+      );
+    }
+    else {
+
+      let date = moment(this.state.displayingMoment.year() + '-' + (this.state.displayingMoment.month() + 1) + '-' + number, 'YYYY-MM-DD'),
+          dateString = date.format('YYYY-MM-DD'),
+          classString = date.isSame(this.state.selectedDate) ? this.props.clsName + '__date ' + this.props.clsName + '__date--active' : this.props.clsName + '__date';
+
+      if(this.props.isDateActive()) {
+        return(
+          <td key={key} className={classString} onClick={this.handleDateCellClick.bind(this, dateString)}>{number}</td>
+        );
+      }
+      else {
+        return(
+          <td key={key} className={this.props.clsName + '__date ' + this.props.clsName + '__date--inactive'}>{number}</td>
+        );
+      }
+
+
+    }
+
+
   }
 
   renderCalendarHeader() {
 
-    let headerDate = moment(this.state.yearToDisplay + '-' + (this.state.monthToDisplay + 1), 'YYYY-MM').format('MMMM YYYY');
+    let headerDate = moment(this.state.displayingMoment.year() + '-' + (this.state.displayingMoment.month() + 1), 'YYYY-MM').format('MMMM YYYY');
 
     return (
-      <div>{headerDate}</div>
+      <div><a href="#" onClick={this.handlePrevClick.bind(this)}>Prev</a>{headerDate}<a href="#" onClick={this.handleNextClick.bind(this)}>Next</a></div>
     )
   }
 
   render() {
+
+    let {clsName} = this.props;
+
     return (
-      <div>
-        <header>
+      <div className={clsName}>
+        <header className={clsName + '__header'}>
           {this.renderCalendarHeader()}
         </header>
-        <table>
+        <table className={clsName + '__table'}>
           <thead>
-            <tr>
+            <tr className={this.props.clsName + '__headerRow'}>
               {this.renderDaysHeader()}
             </tr>
           </thead>
@@ -116,6 +167,22 @@ class Calendar extends React.Component {
       </div>
     )
   }
+}
+
+Calendar.defaultProps = {
+  clsName: "calendar",
+  isDateActive: function() {
+    return true;
+  },
+  handleChange: function(date) {
+    console.log('Date changed: ', date);
+  }
+}
+
+Calendar.PropTypes = {
+  clsName: React.PropTypes.string,
+  isDateActive: React.PropTypes.func,
+  handleChange: React.PropTypes.func
 }
 
 export default Calendar;
