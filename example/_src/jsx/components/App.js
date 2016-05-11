@@ -1,6 +1,6 @@
 import React from 'react';
 import StageIndicator from '../../../../src/StageIndicator';
-
+import Calendar from './Calendar';
 
 var App = React.createClass({
 
@@ -37,6 +37,13 @@ var App = React.createClass({
     }
   },
 
+  disableDate: function(date) {
+    // debugger;
+    if(date.getDayOfMonth() === 12) {
+      return true;
+    }
+  },
+
   handleClick: function(stageNumber) {
     console.log('Fire Action to change stage to: ', stageNumber);
 
@@ -53,6 +60,8 @@ var App = React.createClass({
           currentStage={this.state.currentStage}
           baseCSSClass="StageIndicator"
           stages={this.state.stages} />
+
+        <Calendar />
 
       </div>
     );

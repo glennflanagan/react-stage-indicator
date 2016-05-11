@@ -141,3 +141,16 @@ h2 {
     color: blue; }
   .StageIndicator__link:hover, .StageIndicator__link:active {
     text-decoration: underline; }
+
+.rc-calendar-table {
+  width: 100%; }
+
+.rc-calendar-cell {
+  text-align: center;
+  padding: 5px; }
+
+.rc-calendar-header {
+  text-align: center; }
+
+.rc-calendar-selected-day {
+  border: 1px solid red; }
